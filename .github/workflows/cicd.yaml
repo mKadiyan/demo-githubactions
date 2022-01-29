@@ -61,40 +61,48 @@ jobs:
   contractTest:
     runs-on: ubuntu-latest
     needs: [ test, integTest ]
+    steps:
       - run: echo "Run contract test"
 
   sonar:
     runs-on: ubuntu-latest
     needs: [ test, integTest ]
+    steps:
       - run: echo "Run sonar analysis"
 
   blackduck:
     runs-on: ubuntu-latest
     needs: [ test, integTest ]
+    steps:
       - run: echo "Run black duck scans"
 
   owasp:
     runs-on: ubuntu-latest
     needs: [ test, integTest ]
+    steps:
       - run: echo "run owasp sec checks"
 
   buildImage:
     runs-on: ubuntu-latest
     needs: [contractTest, sonar, blackduck, owasp]
-    - run: echo "build docker image"
-    - run: echo "push image to ecr"
+    steps:
+      - run: echo "build docker image"
+      - run: echo "push image to ecr"
 
   deployDev:
     runs-on: ubuntu-latest
     needs: buildImage
-    - run: echo "Deploy to dev"
+    steps:
+      - run: echo "Deploy to dev"
 
   deployStaging:
     runs-on: ubuntu-latest
     needs: deployDev
-    - run: echo "Deploy to staging"
+    steps:
+      - run: echo "Deploy to staging"
 
   deployPreprod:
     runs-on: ubuntu-latest
     needs: deployStaging
-    - run: echo "Deploy to preprod"
+    steps:
+      - run: echo "Deploy to preprod"
