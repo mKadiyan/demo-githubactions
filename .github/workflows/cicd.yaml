@@ -58,7 +58,7 @@ jobs:
         with:
           arguments: integTest
 
-  contract-test:
+  contractTest:
     runs-on: ubuntu-latest
     needs: [ test, integTest ]
       - run: echo "Run contract test"
@@ -78,23 +78,23 @@ jobs:
     needs: [ test, integTest ]
       - run: echo "run owasp sec checks"
 
-  build-image:
+  buildImage:
     runs-on: ubuntu-latest
-    needs: [contract-test, sonar, blackduck, owasp]
+    needs: [contractTest, sonar, blackduck, owasp]
     - run: echo "build docker image"
     - run: echo "push image to ecr"
 
-  deploy-dev:
+  deployDev:
     runs-on: ubuntu-latest
-    needs: build-image
+    needs: buildImage
     - run: echo "Deploy to dev"
 
-  deploy-staging:
+  deployStaging:
     runs-on: ubuntu-latest
-    needs: deploy-dev
+    needs: deployDev
     - run: echo "Deploy to staging"
 
-  deploy-preprod:
+  deployPreprod:
     runs-on: ubuntu-latest
-    needs: [deploy-staging]
+    needs: deployStaging
     - run: echo "Deploy to preprod"

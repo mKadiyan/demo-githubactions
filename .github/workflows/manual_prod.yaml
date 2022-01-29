@@ -10,10 +10,9 @@ on: [workflow_dispatch]
 jobs:
   e2e:
     runs-on: ubuntu-latest
-    needs: deploy-dev
     - run: echo "Run e2e"
 
-  deploy-prod:
+  deployProd:
     runs-on: ubuntu-latest
-    needs: [deploy-staging]
+    needs: e2e
     - run: echo "Deploy to prod"
